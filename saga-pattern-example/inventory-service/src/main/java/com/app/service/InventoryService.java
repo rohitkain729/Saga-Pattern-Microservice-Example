@@ -14,20 +14,14 @@ public class InventoryService {
 
     @KafkaListener(topics = "inventory-command", groupId = "inventory-service")
     public void handleInventory(OrderEvent event) {
-
         System.out.println("reserving inventory::" + event.orderId());
-
         boolean available = true;
-
         if (available) {
-
             kafkaTemplate.send("inventory-reserved", event.orderId(), event);
         } else {
-
             System.out.println("inventory unavailable");
             kafkaTemplate.send("inventory-failed", event.orderId(), event);
         }
-
     }
 
 }

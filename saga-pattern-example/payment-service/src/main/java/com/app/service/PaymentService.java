@@ -15,13 +15,10 @@ public class PaymentService {
     @KafkaListener(topics = "payment-command", groupId = "payment-service")
     public void processPayment(OrderEvent event) {
         System.out.println("processing payment for::" + event.orderId());
-
         boolean paymentSuccessFull = true;
-
         if (paymentSuccessFull) {
-            System.out.println("payment is successfull");
+            System.out.println("payment is successful");
             kafkaTemplate.send("payment-completed", event.orderId(), event);
-
         } else {
             kafkaTemplate.send("payment-failed", event.orderId(), event);
         }
